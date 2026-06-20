@@ -8,8 +8,8 @@ Alternatively, test your maneuverability skills as you race to pass through all 
 You can download a playable version of this game or the source on the itch page. On the itch page the is also a separate blend file 
 download which contains 3D assets and the setup for creating the star field HDRI.
 
-[Game itch page](https://thelastflapjack.itch.io/open-star-fighter)
+[Game itch page](https://teeeece.itch.io/open-star-fighter)
 
 [Demo video](https://youtu.be/uciL7Is70Z8)
 
-[Check out some of my other open source games](https://thelastflapjack.itch.io/)
+[Check out some of my other open source games](https://teeeece.itch.io/)
