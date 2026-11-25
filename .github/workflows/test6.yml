@@ -1,0 +1,22 @@
+name: Test Inject Only
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inject SEO/GEO metadata
+        run: |
+          python3 - <<'PY'
+          p='README.md'
+          s=open(p,encoding='utf-8').read()
+          meta='''<meta name="description" content="test">
+<meta name="keywords" content="test">
+'''
+          s=s.replace('#', meta+'#', 1)
+          open(p,'w',encoding='utf-8').write(s)
+          print('injected; size', len(s))
+          PY
