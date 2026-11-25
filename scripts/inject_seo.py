@@ -2,7 +2,7 @@ import json
 import re
 
 P = "build/web/index.html"
-MIRROR = "https://open-star-fighter.pages.dev/"
+MIRROR = "https://vip-4.github.io/godot-open-star-fighter-web/"
 
 meta = (
     '<meta name="description" content="Open Star Fighter — a free 3D space combat game built in Godot 4. Pilot your star fighter, shoot down the enemy, first team to 30 kills wins. Or race through hoops.">\n'
