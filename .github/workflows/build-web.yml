@@ -1,0 +1,48 @@
+name: Build Open Star Fighter Web
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: write
+jobs:
+  build-web:
+    name: Build Godot Web export
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.0.0
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Verify renderer patch
+        run: grep "config/features" project.godot
+      - name: Export Web
+        run: |
+          mkdir -p build/web
+          godot --headless --export-release "Web" build/web/index.html 2>&1 | tail -40
+      - name: Inject SEO/GEO metadata
+        run: |
+          python3 - <<'PY'
+          p='build/web/index.html'
+          s=open(p,encoding='utf-8').read()
+          meta='''<meta name="description" content="Open Star Fighter — a free 3D space combat game built in Godot 4. Pilot your star fighter, shoot down the enemy, first team to 30 kills wins. Or race through hoops.">
+<meta name="keywords" content="open star fighter, godot game, space shooter, 3D space combat, free game, open source game, godot 4, web game">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="canonical" href="https://open-star-fighter.pages.dev/">
+<meta property="og:title" content="Open Star Fighter — Godot 4 Space Combat">
+<meta property="og:description" content="Pilot your star fighter, shoot down the enemy, first team to 30 kills wins. Built in Godot 4.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://open-star-fighter.pages.dev/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Open Star Fighter — Godot 4 Space Combat">
+<meta name="twitter:description" content="Pilot your star fighter, shoot down the enemy, first team to 30 kills wins.">
+'''
+          s=s.replace('</head>', meta+'</head>', 1)
+          open(p,'w',encoding='utf-8').write(s)
+          print('injected; size', len(s))
+          PY
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: open-star-fighter-web
+          path: build/web
+          retention-days: 7
