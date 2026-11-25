@@ -1,6 +1,8 @@
 name: Build Open Star Fighter Web
 on:
   workflow_dispatch:
+  push:
+    branches: [master]
 permissions:
   contents: read
   actions: write
