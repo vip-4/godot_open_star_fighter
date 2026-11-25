@@ -1,5 +1,5 @@
 name: Build Open Star Fighter Web
-'on':
+on:
   workflow_dispatch:
 permissions:
   contents: read
