@@ -1,0 +1,16 @@
+name: Test Setup Godot
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: chickensoft-games/setup-godot@v2
+        with:
+          version: 4.0.1
+          use-dotnet: false
+          include-templates: true
+      - run: godot --version
