@@ -1,0 +1,37 @@
+name: Test Inject
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: chickensoft-games/setup-godot@v2
+        with:
+          version: 4.0.1
+          use-dotnet: false
+          include-templates: true
+      - name: Export Web
+        run: |
+          mkdir -p build/web
+          godot --headless --export-release "Web" build/web/index.html 2>&1 | tail -5
+      - name: Inject SEO/GEO metadata
+        run: |
+          python3 - <<'PY'
+          p='build/web/index.html'
+          s=open(p,encoding='utf-8').read()
+          meta='''<meta name="description" content="test">
+<meta name="keywords" content="test">
+'''
+          s=s.replace('</head>', meta+'</head>', 1)
+          open(p,'w',encoding='utf-8').write(s)
+          print('injected; size', len(s))
+          PY
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: open-star-fighter-web
+          path: build/web
+          retention-days: 7
