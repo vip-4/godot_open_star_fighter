@@ -1,0 +1,11 @@
+name: Test Checkout
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: ls -la && echo "---" && cat project.godot | head -3
